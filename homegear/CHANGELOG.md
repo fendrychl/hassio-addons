@@ -7,6 +7,8 @@ Documentation of changes to this project.
 - Based on `debian:trixie-slim` and Homegear stable 0.9.22 from the trixie repository
   (stretch/bullseye repositories are gone, so the old Dockerfile no longer builds)
 - Repository key installed as a signed-by keyring instead of `apt-key`
+- Base image set in the Dockerfile; `build.json` removed (deprecated by the Supervisor,
+  which fell back to the Alpine base image)
 - Supported architectures: aarch64, amd64, armv7
 
 ### Fixed

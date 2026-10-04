@@ -1,5 +1,4 @@
-ARG BUILD_FROM=debian:trixie-slim
-FROM $BUILD_FROM
+FROM debian:trixie-slim
 
 ARG HOMEGEAR_DIST=trixie
 # Nightly builds (0.10.x) are currently broken: they require libhomegear-node
