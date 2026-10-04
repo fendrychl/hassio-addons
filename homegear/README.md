@@ -23,10 +23,25 @@ Homegear logs will be in `/share/homegear/log`.
 
 More informations in the [Wiki](https://github.com/kreativmonkey/hassio-addons/wiki) (soon).
 
+## MAX! via CUNX
+
+Copy [`examples/families/max.conf`](examples/families/max.conf) to
+`/config/homegear/families/max.conf` and replace `xxx.xxx.xxx.xxx` with the IP address
+of your CUNX, then restart the add-on. The log shows
+`Could not connect to server ... on port 2323` while the CUNX is unreachable.
+
+The MAX! pairing state is stored in the database (`/share/homegear/lib/db.sql`), not in
+the config, so back up `/share` (e.g. with Home Assistant backups) to avoid re-pairing.
+
 ## Moving to another machine
 
 Configuration and data live outside the add-on, so to migrate copy `/config/homegear`
-and `/share/homegear/lib` to the new Home Assistant before starting the add-on there.
+and `/share/homegear/lib` to the new Home Assistant **before the first start** of the
+add-on there. On first start an empty `/config/homegear` is filled with defaults, which
+you would then have to overwrite again.
+
+Copy the database while Homegear is stopped, or take a consistent snapshot with
+`sqlite3 db.sql ".backup db.copy.sql"`, so the `-wal` file is not lost.
 
 ## Limitations
 
