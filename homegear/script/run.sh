@@ -41,6 +41,7 @@ fi
 if ! [ "$(ls -A /var/lib/homegear)" ]; then
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
 else
+	mkdir -p /var/lib/homegear/modules /var/lib/homegear/flows/nodes
 	rm -Rf /var/lib/homegear/modules/*
 	rm -Rf /var/lib/homegear/flows/nodes/*
 	cp -a /var/lib/homegear.data/modules/* /var/lib/homegear/modules/
