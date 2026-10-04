@@ -8,7 +8,7 @@ This is a add-on to install and use [homgear](https://homegear.eu/) on Hassio.
 Follow these steps to get the add-on installed on your system:
 
 1. Navigate in your Home Assistant frontend to Hass.io -> Add-On Store
-2. Add the repository as [described here](https://home-assistant.io/hassio/installing_third_party_addons/)
+2. Add the repository `https://github.com/fendrychl/hassio-addons` as [described here](https://home-assistant.io/hassio/installing_third_party_addons/)
 3. Find and install "Homegear" add-on
 
 Don't get nervous after you've hit **Install**. Depending on your hardware and network, it may take up to half an hour before Homegear is installed. Once it appears in the list of installed add-ons, you'll have to **open** and **start** it. I wan't to improve the installation speed soon.
@@ -22,6 +22,11 @@ Homegear usually stores its database and other variable data in `/var/lib/homege
 Homegear logs will be in `/share/homegear/log`.
 
 More informations in the [Wiki](https://github.com/kreativmonkey/hassio-addons/wiki) (soon).
+
+## Moving to another machine
+
+Configuration and data live outside the add-on, so to migrate copy `/config/homegear`
+and `/share/homegear/lib` to the new Home Assistant before starting the add-on there.
 
 ## Limitations
 

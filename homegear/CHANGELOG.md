@@ -1,6 +1,22 @@
 # Changelog
 Documentation of changes to this project.
 
+## [0.73.0] - 2026-10-04
+
+### Changed
+- Based on `debian:trixie-slim` and Homegear stable 0.9.22 from the trixie repository
+  (stretch/bullseye repositories are gone, so the old Dockerfile no longer builds)
+- Repository key installed as a signed-by keyring instead of `apt-key`
+- Supported architectures: aarch64, amd64, armv7
+
+### Fixed
+- Clean shutdown: daemons are signalled directly (`service homegear stop` fails on
+  non-root pidfiles) and the add-on gets 30 s to stop, so peers are saved
+- Logs in `/share/homegear/log` are rotated (10 MB, 3 copies) instead of growing forever
+
+### Removed
+- Unused `installNightly.sh` and `qemu-arm-static`
+
 ## [Unreleased]
 
 - Support for Homeassistant Users

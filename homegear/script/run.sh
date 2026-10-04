@@ -1,10 +1,17 @@
-#/bin/bash
+#!/bin/bash
 
 # Inspired by https://github.com/Homegear/Homegear-Docker/blob/master/rpi-stable/start.sh
 _term() {
-	service homegear-influxdb stop
-	service homegear stop
-	exit $?
+	# "service ... stop" refuses to act on the non-root pidfiles, so signal the
+	# daemons directly and give Homegear time to save its peers.
+	pkill -TERM -x homegear-influx
+	pkill -TERM -x homegear-manage
+	pkill -TERM -o -x homegear
+	for i in $(seq 50); do
+		pgrep -x homegear >/dev/null || break
+		sleep 0.5
+	done
+	exit 0
 }
 
 trap _term SIGTERM
@@ -78,6 +85,10 @@ echo "HOMEGEARGROUP=root" >> /etc/default/homegear
 service homegear start
 service homegear-management start
 service homegear-influxdb start
-tail -f /var/log/homegear/homegear.log &
+
+# No cron in the container: rotate logs hourly so they don't grow unbounded
+(while true; do logrotate -s /var/lib/homegear/logrotate.status /etc/logrotate.d/homegear; sleep 3600; done) &
+
+tail -F /var/log/homegear/homegear.log &
 child=$!
 wait "$child"
