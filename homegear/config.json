@@ -1,18 +1,17 @@
 {
   "name": "Homegear",
-  "version": "0.73.0",
+  "version": "0.73.1",
   "slug": "homegear",
   "description": "Homegear as a Hassio add-on",
-  "arch": ["aarch64", "amd64", "armv7"],
+  "arch": [
+    "aarch64",
+    "amd64",
+    "armv7"
+  ],
   "startup": "services",
   "boot": "auto",
   "timeout": 30,
-  "webui": "http://[HOST]:[PORT:2001]",
-  "ingress": true,
-  "ingress_port": 2001,
-  "ingress_entry": "/admin",
-  "panel_icon": "mdi:thermostat-box",
-  "panel_title": "Homegear",
+  "webui": "http://[HOST]:[PORT:2001]/admin/",
   "uart": true,
   "gpio": true,
   "privileged": [
@@ -20,8 +19,8 @@
     "SYS_RAWIO"
   ],
   "map": [
-	  "config:rw", 
-	  "share:rw"
+    "config:rw",
+    "share:rw"
   ],
   "ports": {
     "2001": 2001,
@@ -29,14 +28,11 @@
     "2003": 2003
   },
   "ports_description": {
-    "2001": "Deprecated! No SSL, no authentication",
+    "2001": "Web UI (/admin/) and RPC, no SSL, no authentication",
     "2002": "Deprecated! SSL enabled, authentication enabled",
     "2003": "Deprecated! SSL and authentication enabled"
   },
-  "environment": {
-  },
-  "options": {
-  },
-  "schema": {
-  }
+  "environment": {},
+  "options": {},
+  "schema": {}
 }

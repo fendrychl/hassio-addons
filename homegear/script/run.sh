@@ -37,6 +37,11 @@ ln -nfs /share/homegear/log /var/log/homegear
 if ! [ "$(ls -A /etc/homegear)" ]; then
 	cp -R /etc/homegear.config/* /etc/homegear/
 fi
+# Add config files introduced by newer packages (e.g. php.ini, without which
+# PHP deprecation notices end up in the admin UI); never overwrite existing ones
+for f in /etc/homegear.config/*; do
+	[ -f "$f" ] && cp --update=none "$f" /etc/homegear/
+done
 
 if ! [ "$(ls -A /var/lib/homegear)" ]; then
 	cp -a /var/lib/homegear.data/* /var/lib/homegear/
@@ -45,7 +50,16 @@ else
 	rm -Rf /var/lib/homegear/modules/*
 	rm -Rf /var/lib/homegear/flows/nodes/*
 	cp -a /var/lib/homegear.data/modules/* /var/lib/homegear/modules/
-	cp -a /var/lib/homegear.data/flows/nodes/* /var/lib/homegear/flows/nodes/
+	[ -d /var/lib/homegear.data/flows/nodes ] && cp -a /var/lib/homegear.data/flows/nodes/. /var/lib/homegear/flows/nodes/
+	# The admin UI is package content only; an old copy breaks against newer modules
+	rm -Rf /var/lib/homegear/admin-ui
+	cp -a /var/lib/homegear.data/admin-ui /var/lib/homegear/admin-ui
+	# Add directories newer packages ship (ui, web-ssh, ...). Only whole missing
+	# directories: the homegear_updated flag file makes homegear-management
+	# restart Homegear mid-startup.
+	for d in /var/lib/homegear.data/*/; do
+		[ -e "/var/lib/homegear/$(basename "$d")" ] || cp -a "$d" /var/lib/homegear/
+	done
 fi
 
 if ! [ -f /var/log/homegear/homegear.log ]; then
@@ -82,6 +96,10 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 echo "HOMEGEARUSER=root" > /etc/default/homegear
 echo "HOMEGEARGROUP=root" >> /etc/default/homegear
+
+# Leftovers from a previous run of this container make the init scripts
+# believe the daemons are still running
+rm -f /var/run/homegear/*.pid /var/run/homegear/*.sock
 
 service homegear start
 service homegear-management start

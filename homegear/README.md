@@ -23,6 +23,13 @@ Homegear logs will be in `/share/homegear/log`.
 
 More informations in the [Wiki](https://github.com/kreativmonkey/hassio-addons/wiki) (soon).
 
+## Web UI
+
+"Open Web UI" in Home Assistant opens the Homegear admin UI at `http://<host>:2001/admin/`.
+On first login it asks you to change the password of the user `homegear`; the initial
+password is in `/share/homegear/lib/defaultPassword.txt` (the file is deleted once you
+change it). Port 2001 has no authentication for RPC, so do not expose it to the internet.
+
 ## MAX! via CUNX
 
 Copy [`examples/families/max.conf`](examples/families/max.conf) to

@@ -1,6 +1,18 @@
 # Changelog
 Documentation of changes to this project.
 
+## [0.73.1] - 2026-10-04
+
+### Fixed
+- Web UI: ingress removed (the admin UI redirects to absolute `/admin/` paths, which
+  404 behind the Home Assistant proxy); "Open Web UI" now opens `http://<host>:2001/admin/`
+- Missing default config files (e.g. `php.ini`) are added on start without overwriting
+  existing ones; without `php.ini` PHP deprecation notices were printed into the admin UI
+- Admin UI is refreshed from the image on every start; an old copy in `/share` failed
+  with HTTP 500 against newer modules
+- Stale pid files and sockets are removed before start, so restarting the container works
+- Harmless `cp: cannot stat .../flows/nodes/*` message on start
+
 ## [0.73.0] - 2026-10-04
 
 ### Changed
