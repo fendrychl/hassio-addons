@@ -13,7 +13,7 @@ system="${sys}_${codename}"
 arch=$(dpkg --print-architecture)
 
 function download {
-	wget https://homegear.eu/downloads/nightlies/${1} || exit 1
+	wget https://downloads.homegear.eu/nightlies/${1} || exit 1
 }
 
 function installPart {
